@@ -1,0 +1,14 @@
+extends layout
+
+block body
+  .header
+    h1.header__title Configuration
+
+  - var items = [{heading: 'User', id: 'user-name', placeholder: 'user name' },{ heading: 'List', id: 'list-name', placeholder: 'list name' }]
+
+  section.config
+    each item, i in items
+      form.config__item.form
+        label(for="#{item.id}").form__label= item.heading
+        input.form__input(type="text" id="#{item.id}" name="name" placeholder="#{item.placeholder}")
+        button.form__btn Update

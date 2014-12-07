@@ -16,4 +16,8 @@ app.get('/', function *() {
   this.body = yield render('index');
 });
 
+app.get('/config', function *() {
+  this.body = yield render('config');
+});
+
 app.listen(3000);
