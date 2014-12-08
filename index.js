@@ -4,6 +4,7 @@ var views = require('co-views');
 var serve = require('koa-static');
 var router = require('koa-router');
 var auth = require('./lib/auth');
+var lists = require('./lib/lists');
 var config = require('./config');
 
 var render = views('views', {
@@ -39,7 +40,14 @@ app.post('/config/user', function *() {
 });
 
 app.post('/config/list', function *() {
-  console.log(this.get('list-name'));
+  var lists = yield lists(config.bearer);
+
+  [].forEach.call(lists, function (list) {
+    if (list.name === this.get('list-name')) {
+      timeline(list.id);
+    }
+  });
+
   this.body = 200;
 });
 
