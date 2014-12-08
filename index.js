@@ -3,6 +3,7 @@ var app = koa();
 var views = require('co-views');
 var serve = require('koa-static');
 var router = require('koa-router');
+var auth = require('./lib/auth');
 
 var render = views('views', {
   ext: 'jade'
@@ -14,6 +15,17 @@ app.use(serve('public'));
 
 app.get('/', function *() {
   this.body = yield render('index');
+});
+
+app.get('/auth', function *() {
+  var tokens = {
+    'consumer_key': this.get('consumer_key'),
+    'consumer_secret': this.get('consumer_secret')
+  };
+
+  tokens.access = yield auth(tokens);
+
+  this.body = 200;
 });
 
 app.get('/config', function *() {
