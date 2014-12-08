@@ -4,6 +4,7 @@ var views = require('co-views');
 var serve = require('koa-static');
 var router = require('koa-router');
 var auth = require('./lib/auth');
+var config = require('./config');
 
 var render = views('views', {
   ext: 'jade'
@@ -19,13 +20,13 @@ app.get('/', function *() {
 
 app.get('/auth', function *() {
   var tokens = {
-    'consumer_key': this.get('consumer_key'),
-    'consumer_secret': this.get('consumer_secret')
+    'consumer_key': config.consumer_key,
+    'consumer_secret': config.consumer_secret
   };
 
-  tokens.access = yield auth(tokens);
+  tokens.access_token = yield auth(tokens);
 
-  this.body = 200;
+  this.body = tokens;
 });
 
 app.get('/config', function *() {

@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --reporter spec --harmony"
+    "test": "mocha --reporter spec --harmony --timeout 3000"
   },
   "dependencies": {
     "co": "^4.0.1",
