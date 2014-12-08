@@ -20,4 +20,14 @@ app.get('/config', function *() {
   this.body = yield render('config');
 });
 
+app.post('/config/user', function *() {
+  console.log(this.get('user-name'));
+  this.body = 200;
+});
+
+app.post('/config/list', function *() {
+  console.log(this.get('list-name'));
+  this.body = 200;
+});
+
 app.listen(3000);

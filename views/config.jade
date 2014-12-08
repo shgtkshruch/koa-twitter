@@ -8,7 +8,7 @@ block body
 
   section.config
     each item, i in items
-      form.config__item.form
+      form.config__item.form(id="#{item.id}")
         label(for="#{item.id}").form__label= item.heading
         input.form__input(type="text" id="#{item.id}" name="name" placeholder="#{item.placeholder}")
         button.form__btn Update
