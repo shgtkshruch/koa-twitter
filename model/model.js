@@ -1,6 +1,6 @@
 var thunkify = require('thunkify');
 var MongoClient = require('mongodb').MongoClient;
-var expandURL = require('../lib/long-url');
+var parse = require('./parse');
 
 var collectionName = 'tweets';
 
@@ -22,28 +22,7 @@ module.exports = {
   save: function *(tweets) {
     var db = yield connect();
 
-    var tws = [];
-
-    for (var i = 0, l = tweets.length; i < l; i ++) {
-      var r = {};
-      var tw = tweets[i];
-
-      r.user = tw.user.name;
-      r.body = tw.text;
-      r.retweetCount = tw.retweet_count;
-      r.favoriteCount = tw.favorite_count;
-      r.rewtweeted = tw.retweeted;
-
-      r.date = tw.created_at.slice(4);
-
-      var urls = tw.entities.urls;
-      if (urls.length > 0) {
-        r.url = yield expandURL(urls[0].url);
-      }
-
-      tws.push(r);
-    }
-
+    var tws = yield parse(tweets);
     yield insert(db, tws);
 
     db.close();
