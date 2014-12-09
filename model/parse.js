@@ -1,4 +1,4 @@
-var expandURL = require('../lib/long-url');
+var expandURL = require('../lib/shorturl');
 
 module.exports = function *(tweets) {
   var tws = [];
@@ -20,7 +20,7 @@ module.exports = function *(tweets) {
       var start = urls[0].indices[0];
       var end = urls[0].indices[1];
 
-      r.url = yield expandURL(urls[0].url);
+      r.url = yield expandURL(urls[0].expanded_url);
       start = r.body.slice(0, start).trim();
       end = r.body.slice(end, 140).trim();
       r.body = start.length > 0 ? 

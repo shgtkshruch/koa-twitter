@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --reporter spec --harmony --timeout 3000",
+    "test": "mocha --reporter spec --harmony --timeout 5000",
     "hbs": "handlebars src/template/*.hbs -f public/script/templates.js"
   },
   "dependencies": {
@@ -16,6 +16,7 @@
     "koa-static": "^1.4.7",
     "mongodb": "^2.0.9",
     "mongorito": "^0.4.8",
+    "request": "^2.49.0",
     "thunkify": "^2.1.2"
   },
   "devDependencies": {
