@@ -18,6 +18,16 @@ var insert = thunkify(function (db, data, cb) {
   });
 });
 
+var find = thunkify(function (db, query, cb) {
+  db.collection(collectionName)
+    .find(query)
+    .sort({date: 1})
+    .limit(25)
+    .toArray(function (err, docs) {
+    cb(err, docs);
+  });
+});
+
 module.exports = {
   save: function *(tweets) {
     var db = yield connect();
@@ -26,5 +36,15 @@ module.exports = {
     yield insert(db, tws);
 
     db.close();
+  },
+  
+  find: function *() {
+    var db = yield connect();
+
+    var res = yield find(db, {});
+
+    db.close();
+
+    return res;
   }
 };

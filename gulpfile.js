@@ -22,6 +22,19 @@ gulp.task('script', function () {
     .pipe(gulp.dest('public/script'));
 });
 
+gulp.task('template', function () {
+  var spawn = require('child_process').spawn;
+  var hbs = spawn('npm', ['run', 'hbs']);
+
+  hbs.stdout.on('data', function (data) {
+    console.log('handlebars: ' + data);
+  });
+
+  hbs.stderr.on('data', function (data) {
+    console.log('handlebars: ' + data);
+  });
+});
+
 gulp.task('nodemon', function () {
   $.nodemon({
     script: 'index.js',
@@ -45,5 +58,9 @@ gulp.task('default', ['nodemon'], function () {
 
   $.watch('src/script/**/*.js', function () {
     gulp.start('script');
+  });
+
+  $.watch('src/template/*.hbs', function () {
+    gulp.start('template');
   });
 });

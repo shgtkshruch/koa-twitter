@@ -1,0 +1,11 @@
+{{#each this}}
+  <li class="tw">
+    <div class="tw__user">{{user}}</div>
+    <div class="tw__body">{{{body}}}</div>
+    <a class="tw__url" href="{{url}}" target="_blank">{{url}}</a>
+    <div class="tw__footer">
+      <p class="tw__fav">{{favoriteCount}}</p>
+      <p class="tw__retw">{{retweetCount}}</p>
+    </div>
+  </li>
+{{/each}}

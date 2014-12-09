@@ -21,6 +21,11 @@ app.get('/', function *() {
   this.body = yield render('index');
 });
 
+app.get('/tweets', function *() {
+  this.body = yield model.find();
+});
+
+
 app.get('/auth', function *() {
   var tokens = {
     'consumer_key': config.consumer_key,
