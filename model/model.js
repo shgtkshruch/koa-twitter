@@ -1,5 +1,6 @@
 var thunkify = require('thunkify');
 var MongoClient = require('mongodb').MongoClient;
+var expandURL = require('../lib/long-url');
 
 var collectionName = 'tweets';
 
@@ -37,7 +38,7 @@ module.exports = {
 
       var urls = tw.entities.urls;
       if (urls.length > 0) {
-        r.url = urls[0].url;
+        r.url = yield expandURL(urls[0].url);
       }
 
       tws.push(r);
