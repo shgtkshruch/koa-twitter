@@ -11,11 +11,11 @@ describe('perse', function () {
     retweet_count: 5,
     favorite_count: 2,
     retweeted: true,
-    text: 'lorem ipsum http://bit.ly/1bdDlXc',
+    text: 'lorem ipsum http://bit.ly/IrKd8Q',
     entities: {
       urls: [{
-        url: 'http://bit.ly/1bdDlXc',
-        expanded_url: 'http://www.google.com/',
+        url: 'http://bit.ly/IrKd8Q',
+        expanded_url: 'http://www.yahoo.co.jp/',
         indices: [ 12, 33 ]
       }]
     }
@@ -27,11 +27,11 @@ describe('perse', function () {
     retweet_count: 0,
     favorite_count: 2,
     retweeted: false,
-    text: 'lorem ipsum http://bit.ly/1bdDlXc lorem ipsum',
+    text: 'lorem ipsum http://bit.ly/IrKd8Q lorem ipsum',
     entities: {
       urls: [{
-        url: 'http://bit.ly/1bdDlXc',
-        expanded_url: 'http://www.google.com/',
+        url: 'http://bit.ly/IrKd8Q',
+        expanded_url: 'http://bit.ly/IrKd8Q',
         indices: [ 12, 33 ]
       }]
     }
@@ -43,11 +43,11 @@ describe('perse', function () {
     retweet_count: 1,
     favorite_count: 1,
     retweeted: false,
-    text: 'http://bit.ly/1bdDlXc lorem ipsum',
+    text: 'http://bit.ly/IrKd8Q lorem ipsum',
     entities: {
       urls: [{
-        url: 'http://bit.ly/1bdDlXc',
-        expanded_url: 'http://www.google.com/',
+        url: 'http://bit.ly/IrKd8Q',
+        expanded_url: 'http://www.yahoo.co.jp/',
         indices: [ 0, 21 ]
       }]
     }
@@ -68,7 +68,7 @@ describe('perse', function () {
   });
 
   it('should return expectd url', function () {
-    assert.deepEqual(tws[0].url, 'http://www.google.com/');
+    assert.deepEqual(tws[0].url, 'http://www.yahoo.co.jp/');
   });
 
 });
