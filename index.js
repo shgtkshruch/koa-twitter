@@ -6,6 +6,7 @@ var router = require('koa-router');
 var auth = require('./lib/auth');
 var lists = require('./lib/lists');
 var timeline = require('./lib/timeline');
+var model = require('./model/model');
 var config = require('./config');
 
 var render = views('views', {
@@ -50,8 +51,13 @@ app.post('/config/list', function *() {
   // });
 
   var id = 105094084;
-  var res = yield timeline(config.bearer, id);
-  console.log(res);
+  var tweets = yield timeline(config.bearer, id);
+
+  // var util = require('util');
+  // console.log(util.inspect(tweets, {depth: 10}));
+
+  yield model.save(tweets);
+  console.log('end');
 
   this.body = 200;
 });
