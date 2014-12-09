@@ -12,3 +12,6 @@ block body
         label(for="#{item.id}").form__label= item.heading
         input.form__input(type="text" id="#{item.id}" name="name" placeholder="#{item.placeholder}")
         button.form__btn Update
+
+block script
+  script(src="/script/config.js")

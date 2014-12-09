@@ -1,7 +1,20 @@
 var gulp = require('gulp');
+var path = require('path');
 var $ = require('gulp-load-plugins')();
 var browserify = require('browserify');
 var transform = require('vinyl-transform');
+
+var config = {
+  script: './src/script',
+  style: './src/style'
+};
+
+var jssrc = [];
+var scripts = ['index.js', 'config.js'];
+
+scripts.forEach(function (js) {
+  jssrc.push(path.join(config.script, js));
+});
 
 gulp.task('style', function () {
   gulp.src('src/style/main.scss')
@@ -16,7 +29,7 @@ gulp.task('script', function () {
     return b.bundle();
   });
 
-  gulp.src('./src/script/index.js')
+  gulp.src(jssrc)
     .pipe($.plumber())
     .pipe(browserified)
     .pipe(gulp.dest('public/script'));
@@ -45,22 +58,22 @@ gulp.task('nodemon', function () {
       "index.js",
       "views/",
       "public/",
-      "model/",
-      "lib/"
+        "model/",
+        "lib/"
     ]
   });
 });
 
 gulp.task('default', ['nodemon'], function () {
   $.watch('src/style/**/*.scss', function () {
-    gulp.start('style');
-  });
+                         gulp.start('style');
+                         });
 
-  $.watch('src/script/**/*.js', function () {
-    gulp.start('script');
-  });
+                         $.watch('src/script/**/*.js', function () {
+                                                 gulp.start('script');
+                                                 });
 
-  $.watch('src/template/*.hbs', function () {
-    gulp.start('template');
-  });
-});
+                                                 $.watch('src/template/*.hbs', function () {
+                                                 gulp.start('template');
+                                                 });
+                                                 });
