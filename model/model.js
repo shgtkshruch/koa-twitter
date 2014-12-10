@@ -11,9 +11,9 @@ var connect = thunkify(function (cb) {
   });
 });
 
-var insert = thunkify(function (db, data, cb) {
+var upsert = thunkify(function (db, tweet, cb) {
   db.collection(collectionName)
-    .insert(data, function (err, res) {
+    .update({tweetId: tweet.tweetId}, tweet, {upsert: true}, function (err, res) {
     cb(err, res);
   });
 });
@@ -22,7 +22,7 @@ var find = thunkify(function (db, query, cb) {
   db.collection(collectionName)
     .find(query)
     .sort({timestamp: 1})
-    .limit(25)
+    .limit(100)
     .toArray(function (err, docs) {
     cb(err, docs);
   });
@@ -32,12 +32,13 @@ module.exports = {
   save: function *(tweets) {
     var db = yield connect();
 
-    // var tws = yield parse(tweets, false);
-    yield insert(db, tweets);
+    for (var i = 0, l = tweets.length; i < l; i ++) {
+      yield upsert(db, tweets[i]);
+    }
 
     db.close();
   },
-  
+
   find: function *() {
     var db = yield connect();
 

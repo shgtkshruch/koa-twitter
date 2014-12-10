@@ -57,7 +57,7 @@ app.post('/config/list', function *() {
   // });
 
   var id = 105094084;
-  var until = Date.now() - 60 * 60 * 2 * 1000;
+  var until = Date.now() - 60 * 60 * 5 * 1000;
   var oldestTweet = { tweetId: '' };
   var results = [];
 
@@ -72,8 +72,7 @@ app.post('/config/list', function *() {
   } while (oldestTweet.timestamp > until);
 
   yield model.save(results);
-
-  console.log('Insert ' + results.length + ' tweets to database');
+  console.log('Update data base');
 
   this.body = 200;
 });
