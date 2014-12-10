@@ -56,7 +56,7 @@ describe('parse', function () {
 
   before(function (done) {
     co(function *() {
-      tws = yield parse(tweets);
+      tws = yield parse(tweets, true);
       done();
     });
   });
@@ -68,7 +68,7 @@ describe('parse', function () {
   });
 
   it('should return expectd url', function () {
-    assert.deepEqual(tws[0].url, 'http://www.yahoo.co.jp/');
+    assert.deepEqual(tws[1].url, 'http://www.yahoo.co.jp/');
   });
 
   it('should return unix millisecond timestamp', function () {

@@ -32,7 +32,7 @@ module.exports = {
   save: function *(tweets) {
     var db = yield connect();
 
-    var tws = yield parse(tweets);
+    var tws = yield parse(tweets, false);
     yield insert(db, tws);
 
     db.close();

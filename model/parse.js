@@ -1,7 +1,10 @@
-var expandURL = require('../lib/shorturl');
+var shorturl = require('../lib/shorturl');
 var moment = require('../lib/moment');
 
-module.exports = function *(tweets) {
+module.exports = function *(tweets, expandURL) {
+
+  expandURL = expandURL || false;
+
   var tws = [];
 
   for (var i = 0, l = tweets.length; i < l; i ++) {
@@ -21,8 +24,10 @@ module.exports = function *(tweets) {
     if (urls.length > 0) {
       var start = urls[0].indices[0];
       var end = urls[0].indices[1];
+      var url = urls[0].expanded_url;
 
-      r.url = yield expandURL(urls[0].expanded_url);
+      r.url = expandURL ? yield shorturl(url) : url;
+
       start = r.body.slice(0, start).trim();
       end = r.body.slice(end, 140).trim();
       r.body = start.length > 0 ? 
