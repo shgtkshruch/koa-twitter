@@ -21,7 +21,7 @@ var insert = thunkify(function (db, data, cb) {
 var find = thunkify(function (db, query, cb) {
   db.collection(collectionName)
     .find(query)
-    .sort({date: 1})
+    .sort({timestamp: 1})
     .limit(25)
     .toArray(function (err, docs) {
     cb(err, docs);
