@@ -12,6 +12,7 @@ module.exports = function *(tweets) {
     r.retweetCount = tw.retweet_count;
     r.favoriteCount = tw.favorite_count;
     r.rewtweeted = tw.retweeted;
+    r.profileImg = tw.user.profile_image_url_https;
 
     r.date = tw.created_at.slice(4);
 
