@@ -27,8 +27,25 @@ app.get('/tweets', function *() {
 });
 
 app.post('/tweets', function *() {
-  var timestamp = this.get('timestamp');
-  this.body = timestamp;
+  var id = 105094084;
+  var until = this.get('timestamp');
+  var oldestTweet = { tweetId: '' };
+  var results = [];
+
+  do {
+    var tweets = yield timeline(config.bearer, id, 25, oldestTweet.tweetId || '');
+
+    tweets = yield parse(tweets);
+    results = results.concat(tweets);
+
+    oldestTweet = tweets[tweets.length - 1];
+
+  } while (oldestTweet.timestamp > until);
+
+  yield model.save(results);
+
+  this.status = 201;
+  this.message = 'Successfully update data base';
 });
 
 app.get('/auth', function *() {
@@ -60,25 +77,6 @@ app.post('/config/list', function *() {
   //   }
   // });
 
-  var id = 105094084;
-  var until = Date.now() - 60 * 60 * 5 * 1000;
-  var oldestTweet = { tweetId: '' };
-  var results = [];
-
-  do {
-    var tweets = yield timeline(config.bearer, id, 25, oldestTweet.tweetId || '');
-
-    tweets = yield parse(tweets);
-    results = results.concat(tweets);
-
-    oldestTweet = tweets[tweets.length - 1];
-
-  } while (oldestTweet.timestamp > until);
-
-  yield model.save(results);
-  console.log('Update data base');
-
-  this.body = 200;
 });
 
 app.listen(3000);

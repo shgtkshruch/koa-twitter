@@ -15,7 +15,7 @@ module.exports = function () {
     var req = new XMLHttpRequest();
     req.open('POST', '/tweets', true);
     req.onreadystatechange= function (e) {
-      if (this.status === 200 && this.readyState === 4) {
+      if (200 <= this.status < 300 && this.readyState === 4) {
         console.log(this);
       }
     };
