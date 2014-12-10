@@ -22,7 +22,7 @@ var find = thunkify(function (db, query, cb) {
   db.collection(collectionName)
     .find(query)
     .sort({timestamp: 1})
-    .limit(100)
+    .limit(10)
     .toArray(function (err, docs) {
     cb(err, docs);
   });
