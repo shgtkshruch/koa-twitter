@@ -10,7 +10,7 @@ module.exports = function () {
   cal.addEventListener('submit', function (e) {
     e.preventDefault();
 
-    var unixTime = input.valueAsNumber;
+    var unixTime = input.valueAsNumber - 60 * 60 * 9 * 1000;
 
     var req = new XMLHttpRequest();
     req.open('POST', '/tweets', true);
