@@ -1,6 +1,6 @@
 var thunkify = require('thunkify');
 var MongoClient = require('mongodb').MongoClient;
-// var parse = require('./parse');
+var ObjectID = require('mongodb').ObjectID;
 
 var collectionName = 'tweets';
 
@@ -39,10 +39,16 @@ module.exports = {
     db.close();
   },
 
-  find: function *() {
+  find: function *(id) {
     var db = yield connect();
+    var res;
 
-    var res = yield find(db, {});
+    if (id) {
+      var newest = yield find(db, {_id: new ObjectID(id)});
+      res = yield find(db, {timestamp: {$gt : newest[0].timestamp}});
+    } else {
+      res = yield find(db, {});
+    }
 
     db.close();
 
