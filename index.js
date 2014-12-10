@@ -56,7 +56,7 @@ app.post('/config/list', function *() {
   // });
 
   var id = 105094084;
-  var tweets = yield timeline(config.bearer, id);
+  var tweets = yield timeline(config.bearer, id, 100);
 
   // var util = require('util');
   // console.log(util.inspect(tweets, {depth: 10}));
