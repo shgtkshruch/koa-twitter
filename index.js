@@ -23,6 +23,7 @@ app.get('/', function *() {
 });
 
 app.get('/tweets', function *() {
+  console.log(this.get('newestId'));
   this.body = yield model.find();
 });
 
