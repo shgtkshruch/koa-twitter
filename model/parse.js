@@ -1,4 +1,5 @@
 var expandURL = require('../lib/shorturl');
+var moment = require('../lib/moment');
 
 module.exports = function *(tweets) {
   var tws = [];
@@ -14,7 +15,7 @@ module.exports = function *(tweets) {
     r.rewtweeted = tw.retweeted;
     r.profileImg = tw.user.profile_image_url_https;
 
-    r.date = tw.created_at.slice(4);
+    r.timestamp = moment.unixMillisecond(tw.created_at);
 
     var urls = tw.entities.urls;
     if (urls.length > 0) {

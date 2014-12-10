@@ -2,9 +2,9 @@ var co = require('co');
 var parse = require('../model/parse');
 var assert = require('assert');
 
-describe('perse', function () {
+describe('parse', function () {
   var tweets = [{
-    created_at: 'DEC',
+    created_at: 'Mon Sep 10 14:04:58 +0000 2012',
     user : {
       name: 'hoge'
     },
@@ -20,7 +20,7 @@ describe('perse', function () {
       }]
     }
   },{
-    created_at: 'DEC',
+    created_at: 'Mon Sep 10 14:04:58 +0000 2012',
     user : {
       name: 'fuga'
     },
@@ -36,7 +36,7 @@ describe('perse', function () {
       }]
     }
   },{
-    created_at: 'DEC',
+    created_at: 'Mon Sep 10 14:04:58 +0000 2012',
     user : {
       name: 'piyo'
     },
@@ -71,4 +71,7 @@ describe('perse', function () {
     assert.deepEqual(tws[0].url, 'http://www.yahoo.co.jp/');
   });
 
+  it('should return unix millisecond timestamp', function () {
+    assert.deepEqual(tws[0].timestamp, 1347285898000);
+  });
 });
