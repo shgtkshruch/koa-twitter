@@ -1,6 +1,6 @@
 var thunkify = require('thunkify');
 var MongoClient = require('mongodb').MongoClient;
-var parse = require('./parse');
+// var parse = require('./parse');
 
 var collectionName = 'tweets';
 
@@ -32,8 +32,8 @@ module.exports = {
   save: function *(tweets) {
     var db = yield connect();
 
-    var tws = yield parse(tweets, false);
-    yield insert(db, tws);
+    // var tws = yield parse(tweets, false);
+    yield insert(db, tweets);
 
     db.close();
   },

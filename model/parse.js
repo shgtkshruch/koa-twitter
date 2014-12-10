@@ -11,6 +11,7 @@ module.exports = function *(tweets, expandURL) {
     var r = {};
     var tw = tweets[i];
 
+    r.tweetId = tw.id;
     r.user = tw.user.name;
     r.body = tw.text;
     r.retweetCount = tw.retweet_count;

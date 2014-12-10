@@ -7,6 +7,7 @@ var auth = require('./lib/auth');
 var lists = require('./lib/lists');
 var timeline = require('./lib/timeline');
 var model = require('./model/model');
+var parse = require('./model/parse');
 var config = require('./config');
 
 var render = views('views', {
@@ -56,13 +57,23 @@ app.post('/config/list', function *() {
   // });
 
   var id = 105094084;
-  var tweets = yield timeline(config.bearer, id, 100);
+  var until = Date.now() - 60 * 60 * 2 * 1000;
+  var oldestTweet = { tweetId: '' };
+  var results = [];
 
-  // var util = require('util');
-  // console.log(util.inspect(tweets, {depth: 10}));
+  do {
+    var tweets = yield timeline(config.bearer, id, 25, oldestTweet.tweetId || '');
 
-  yield model.save(tweets);
-  console.log('end');
+    tweets = yield parse(tweets);
+    results = results.concat(tweets);
+
+    oldestTweet = tweets[tweets.length - 1];
+
+  } while (oldestTweet.timestamp > until);
+
+  yield model.save(results);
+
+  console.log('Insert ' + results.length + ' tweets to database');
 
   this.body = 200;
 });
