@@ -26,6 +26,10 @@ app.get('/tweets', function *() {
   this.body = yield model.find();
 });
 
+app.post('/tweets', function *() {
+  var timestamp = this.get('timestamp');
+  this.body = timestamp;
+});
 
 app.get('/auth', function *() {
   var tokens = {
