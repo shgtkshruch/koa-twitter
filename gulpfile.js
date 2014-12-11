@@ -3,6 +3,7 @@ var path = require('path');
 var $ = require('gulp-load-plugins')();
 var browserify = require('browserify');
 var transform = require('vinyl-transform');
+var browserSync = require('browser-sync');
 
 var config = {
   script: './src/script',
@@ -16,6 +17,18 @@ scripts.forEach(function (js) {
   jssrc.push(path.join(config.script, js));
 });
 
+gulp.task('browserSync', ['nodemon'], function () {
+  browserSync({
+    watchOptions: {
+      debounceDelay: 0
+    },
+    proxy: 'http://localhost:3000',
+    port: 3001,
+    notify: false,
+    reloadDelay: 0
+  });
+});
+
 gulp.task('style', function () {
 
   function isChanged (file) {
@@ -26,7 +39,8 @@ gulp.task('style', function () {
     .pipe($.filter(isChanged))
     .pipe($.plumber())
     .pipe($.sass())
-    .pipe(gulp.dest('public/style'));
+    .pipe(gulp.dest('public/style'))
+    .pipe(browserSync.reload({stream: true}));
 });
 
 
@@ -42,7 +56,8 @@ gulp.task('script', function () {
     gulp.src(jssrc)
       .pipe($.plumber())
       .pipe(browserified)
-      .pipe(gulp.dest('public/script'));
+      .pipe(gulp.dest('public/script'))
+      .pipe(browserSync.reload({stream: true}));
   });
 });
 
@@ -63,7 +78,7 @@ gulp.task('template', function () {
   });
 });
 
-gulp.task('nodemon', function () {
+gulp.task('nodemon', function (cb) {
   $.nodemon({
     script: 'index.js',
     execMap: {
@@ -73,13 +88,15 @@ gulp.task('nodemon', function () {
       "index.js",
       "views/",
       "public/",
-        "model/",
-        "lib/"
+      "model/",
+      "lib/"
     ]
+  }).on('start', function () {
+    cb();
   });
 });
 
-gulp.task('default', ['nodemon'], function () {
+gulp.task('default', ['browserSync'], function () {
 
   gulp.start('style');
   gulp.start('script');
