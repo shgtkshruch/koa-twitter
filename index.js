@@ -30,32 +30,24 @@ app.post('/tweets', function *() {
   var id = 105094084;
   var until = this.get('timestamp');
 
-  var oldTweets = yield model.find();
-  var oldestTweet = oldTweets.length > 1 ? oldTweets[0] : {tweetId: ''};
+  var newTweets = {still: true};
+  var results = [];
 
-  if (oldestTweet.timestamp < until) {
-    this.status = 200;
-    this.message = 'Data base has been updated';
-  } else {
-    var newTweets;
-    var results = [];
+  while (newTweets.still) {
+    var tweets = yield timeline(config.bearer, id, 200,
+        oldestTweet ? oldestTweet.tweetId : '');
 
-    do {
-      var tweets = yield timeline(config.bearer, id, 200, oldestTweet.tweetId);
+    newTweets = yield select(tweets, until, false);
 
-      newTweets = yield select(tweets, until, false);
+    results = results.concat(newTweets.list);
 
-      results = results.concat(newTweets.list);
-
-      oldestTweet = newTweets.list[newTweets.list.length - 1];
-
-    } while (newTweets.still);
-
-    yield model.save(results);
-
-    this.status = 201;
-    this.message = 'Successfully update data base';
+    var oldestTweet = newTweets.list[newTweets.list.length - 1];
   }
+
+  yield model.save(results);
+
+  this.status = 201;
+  this.message = 'Successfully update data base';
 });
 
 app.get('/auth', function *() {
