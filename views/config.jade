@@ -13,5 +13,8 @@ block body
         input.form__input(type="text" id="#{item.id}" name="name" placeholder="#{item.placeholder}")
         button.form__btn Update
 
+block style
+  link(rel='stylesheet', href='/style/config.css', media='all')
+
 block script
   script(src="/script/config.js")
