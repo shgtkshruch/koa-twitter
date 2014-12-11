@@ -50,6 +50,14 @@ app.post('/tweets', function *() {
   this.message = 'Successfully update data base';
 });
 
+app.del('/tweets', function *() {
+  var res = yield model.remove(this.get('objectId'));
+  if (res.ok === 1) {
+    this.status = 200;
+    this.message = 'Delete ' + res.n + ' tweets';
+  }
+});
+
 app.get('/auth', function *() {
   var tokens = {
     'consumer_key': config.consumer_key,

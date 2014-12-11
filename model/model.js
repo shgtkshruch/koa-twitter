@@ -28,6 +28,13 @@ var find = thunkify(function (db, query, cb) {
   });
 });
 
+var remove = thunkify(function (db, query, cb) {
+  db.collection(collectionName)
+    .remove(query, function (err, res) {
+      cb(err, res);
+    });
+});
+
 module.exports = {
   save: function *(tweets) {
     var db = yield connect();
@@ -53,5 +60,16 @@ module.exports = {
     db.close();
 
     return res;
+  },
+
+  remove: function *(id) {
+    var db = yield connect();
+
+    var delTarget = yield find(db, {_id: new ObjectID(id)});
+    var res = yield remove(db, {timestamp: {$lte: delTarget[0].timestamp}});
+
+    db.close();
+
+    return res.result;
   }
 };
