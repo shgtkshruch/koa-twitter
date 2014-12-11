@@ -17,34 +17,49 @@ scripts.forEach(function (js) {
 });
 
 gulp.task('style', function () {
-  gulp.src('src/style/main.scss')
+
+  function isChanged (file) {
+    return file.event === 'changed';
+  }
+
+  $.watch('src/style/**/*.scss', {name: 'Sass'})
+    .pipe($.filter(isChanged))
     .pipe($.plumber())
     .pipe($.sass())
     .pipe(gulp.dest('public/style'));
 });
 
-gulp.task('script', function () {
-  var browserified = transform(function (filename) {
-    var b = browserify(filename);
-    return b.bundle();
-  });
 
-  gulp.src(jssrc)
-    .pipe($.plumber())
-    .pipe(browserified)
-    .pipe(gulp.dest('public/script'));
+gulp.task('script', function () {
+
+  $.watch('src/script/**/*.js',{name: 'browserify'}, function () {
+
+    var browserified = transform(function (filename) {
+      var b = browserify(filename);
+      return b.bundle();
+    });
+
+    gulp.src(jssrc)
+      .pipe($.plumber())
+      .pipe(browserified)
+      .pipe(gulp.dest('public/script'));
+  });
 });
 
 gulp.task('template', function () {
+
   var spawn = require('child_process').spawn;
-  var hbs = spawn('npm', ['run', 'hbs']);
 
-  hbs.stdout.on('data', function (data) {
-    console.log('handlebars: ' + data);
-  });
+  $.watch('src/template/*.hbs', {name: 'handlebars'}, function () {
+    var hbs = spawn('npm', ['run', 'hbs']);
 
-  hbs.stderr.on('data', function (data) {
-    console.log('handlebars: ' + data);
+    hbs.stdout.on('data', function (data) {
+      console.log('handlebars: ' + data);
+    });
+
+    hbs.stderr.on('data', function (data) {
+      console.log('handlebars: ' + data);
+    });
   });
 });
 
@@ -65,15 +80,8 @@ gulp.task('nodemon', function () {
 });
 
 gulp.task('default', ['nodemon'], function () {
-  $.watch('src/style/**/*.scss', function () {
-                         gulp.start('style');
-                         });
 
-                         $.watch('src/script/**/*.js', function () {
-                                                 gulp.start('script');
-                                                 });
-
-                                                 $.watch('src/template/*.hbs', function () {
-                                                 gulp.start('template');
-                                                 });
-                                                 });
+  gulp.start('style');
+  gulp.start('script');
+  gulp.start('template');
+});
