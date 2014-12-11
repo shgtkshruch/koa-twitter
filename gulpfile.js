@@ -25,7 +25,8 @@ gulp.task('browserSync', ['nodemon'], function () {
     proxy: 'http://localhost:3000',
     port: 3001,
     notify: false,
-    reloadDelay: 0
+    reloadDelay: 0,
+    open: false
   });
 });
 
@@ -79,6 +80,7 @@ gulp.task('template', function () {
 });
 
 gulp.task('nodemon', function (cb) {
+  var called = false;
   $.nodemon({
     script: 'index.js',
     execMap: {
@@ -92,7 +94,10 @@ gulp.task('nodemon', function (cb) {
       "lib/"
     ]
   }).on('start', function () {
-    cb();
+    if (!called) {
+      called = true;
+      cb();
+    }
   });
 });
 

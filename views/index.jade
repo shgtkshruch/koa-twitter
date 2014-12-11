@@ -3,15 +3,17 @@ extends layout
 block body
   header.header
     h1.header__title Twitter
-      form.cal#js-cal
-        input(type="datetime-local")
-        button Update
+    form.cal#js-cal
+      input.cal__input(type="datetime-local")
+      button.cal__btn Update
 
   main.container
     ul#js-main
 
 block style
   link(rel='stylesheet', href='/style/index.css', media='all')
+  link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css', media='all')
+
 
 block script
   script(src="/script/runtime.min.js")
