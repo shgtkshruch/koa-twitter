@@ -1,13 +1,17 @@
 {{#each this}}
   <li class="tw" data-id="{{_id}}">
-    <p class="tw__timwstamp">{{fromNow timestamp}}</p>
-    <img class="tw__thumb" src="{{profileImg}}">
-    <div class="tw__user">{{user}}</div>
-    <div class="tw__body">{{{body}}}</div>
-    <a class="tw__url" href="{{url}}" target="_blank">{{url}}</a>
-    <div class="tw__footer">
-      <p class="tw__fav">{{favoriteCount}}</p>
-      <p class="tw__retw">{{retweetCount}}</p>
+    <div class="tw__header">
+      <p class="tw__user">{{user}}</p>
+      <img class="tw__thumb" src="{{profileImg}}">
+      <p class="tw__timwstamp">{{fromNow timestamp}}</p>
     </div>
+    <div class="tw__body">
+     <p class="tw__text">{{{body}}}</p>
+     <a class="tw__url" href="{{url}}" target="_blank">{{url}}</a>
+    </div>
+    <ul class="tw__footer">
+      <li class="tw__fav">{{favoriteCount}}</li>
+      <li class="tw__retw">{{retweetCount}}</li>
+    </ul>
   </li>
 {{/each}}
