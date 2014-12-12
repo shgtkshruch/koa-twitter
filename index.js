@@ -51,10 +51,10 @@ app.post('/tweets', function *() {
 });
 
 app.del('/tweets', function *() {
-  var res = yield model.remove(this.get('objectId'));
-  if (res.ok === 1) {
+  var removeNum = yield model.remove(this.get('objectId'));
+  if (removeNum > 0) {
     this.status = 200;
-    this.message = 'Delete ' + res.n + ' tweets';
+    this.message = 'Delete ' + removeNum + ' tweets';
   }
 });
 
