@@ -19,7 +19,8 @@ app.use(router(app));
 app.use(serve('public'));
 
 app.get('/', function *() {
-  this.body = yield render('index');
+  var newestTweet = yield model.findNewest();
+  this.body = yield render('index', {timestamp: newestTweet[0].timestamp});
 });
 
 app.get('/tweets', function *() {

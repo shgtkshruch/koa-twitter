@@ -5,7 +5,7 @@ module.exports = function () {
   var btn = cal.querySelector('button');
   var input = cal.querySelector('input[type="datetime-local"]');
 
-  input.value = moment().format('YYYY-MM-DDTHH:mm');
+  input.value = moment(cal.dataset.timestamp, 'x').format('YYYY-MM-DDTHH:mm');
 
   cal.addEventListener('submit', function (e) {
     e.preventDefault();

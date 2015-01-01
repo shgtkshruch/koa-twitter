@@ -3,7 +3,7 @@ extends layout
 block body
   header.header
     h1.header__title Twitter
-    form.cal#js-cal
+    form.cal#js-cal(data-timestamp="#{timestamp}")
       input.cal__input(type="datetime-local")
       button.cal__btn Update
 

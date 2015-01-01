@@ -32,6 +32,13 @@ module.exports = {
     return res;
   },
 
+  findNewest: function *() {
+    return yield tweets.find(
+        {},
+        { sort: { timestamp: -1 }, limit: 1 }
+    );
+  },
+
   remove: function *(id) {
     var delTarget = yield tweets.find({ _id: id });
     var removeNum = yield tweets.remove(
